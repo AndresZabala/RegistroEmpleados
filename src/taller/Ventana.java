@@ -43,7 +43,8 @@ public class Ventana extends JFrame{
         setSize(700,250);
         setLocation(100,100);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        InicializarComponentes();        
+        InicializarComponentes();      
+        btnGuardar.addActionListener(new ManejadordeBoton());
     }
 
     private void InicializarComponentes() {
@@ -58,7 +59,7 @@ public class Ventana extends JFrame{
         JPanel panelButton = new JPanel();        
         JPanel panelBase = new JPanel();
         
-        //Label
+        //Labels
         panelLabel.setLayout(new GridLayout(7,1));
         panelLabel.setBorder(BorderFactory.createEmptyBorder(10,10,0,0));
         panelLabel.add(lblCedula = new JLabel("Cedula"));
@@ -81,8 +82,7 @@ public class Ventana extends JFrame{
         panelText.add(txtSueldo = new JTextField());        
         
         //Botón
-        panelButton.setLayout(new FlowLayout());
-        btnGuardar.addActionListener(new ManejadordeBoton());
+        panelButton.setLayout(new FlowLayout());        
         panelButton.add(btnGuardar = new JButton("Guardar"));
         
                                 
@@ -104,8 +104,71 @@ public class Ventana extends JFrame{
     class ManejadordeBoton implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent ae) {            
-            Object[] nuevaFila = {txtCedula.getText(),txtNombres.getText(),txtApellidos.getText(), txtDireccion.getText(), txtTelefono.getText(), txtCargo.getText(), txtSueldo.getText()};
-            table.addRow(nuevaFila);
+            
+            if(validaciones()){
+                Object[] nuevaFila = {txtCedula.getText(),txtNombres.getText(),txtApellidos.getText(), txtDireccion.getText(), txtTelefono.getText(), txtCargo.getText(), txtSueldo.getText()};
+                table.addRow(nuevaFila);
+
+                //Se limpian los campos
+                txtCedula.setText("");
+                txtNombres.setText("");
+                txtApellidos.setText("");
+                txtDireccion.setText("");
+                txtTelefono.setText("");
+                txtCargo.setText("");
+                txtSueldo.setText("");
+                txtCedula.requestFocus();
+            }                        
         }        
+
+        //Metodo que realiza las validaciones de los campos de textos
+        private boolean validaciones() {
+            boolean isValid = false;
+            
+            if(txtCedula.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar una cedula.","Advertencia",JOptionPane.WARNING_MESSAGE);                
+                txtCedula.requestFocus();
+                return isValid;
+            }
+            
+            if(txtNombres.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar un Nombre.","Advertencia",JOptionPane.WARNING_MESSAGE);
+                txtNombres.requestFocus();
+                return isValid;
+            }
+            
+            if(txtApellidos.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar los Apellidos.","Advertencia",JOptionPane.WARNING_MESSAGE);
+                txtApellidos.requestFocus();
+                return isValid;
+            }
+            
+            if(txtDireccion.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar una Dirección.","Advertencia",JOptionPane.WARNING_MESSAGE);
+                txtDireccion.requestFocus();
+                return isValid;
+            }
+            
+            if(txtTelefono.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar un Telefono.","Advertencia",JOptionPane.WARNING_MESSAGE);
+                txtTelefono.requestFocus();
+                return isValid;
+            }
+            
+            if(txtCargo.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar un Cargo.","Advertencia",JOptionPane.WARNING_MESSAGE);
+                txtCargo.requestFocus();
+                return isValid;
+            }
+            
+            if(txtSueldo.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar un Sueldo.","Advertencia",JOptionPane.WARNING_MESSAGE);
+                txtSueldo.requestFocus();
+                return isValid;
+            }
+            
+            isValid = true;            
+            return isValid;       
+        }
     }    
 }
